@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="images/umrt_logo.ico" type="image/x-icon">
+    <title>URRT - Webmasters</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap');
+        
+        :root {
+            --primary: #3b82f6;
+            --secondary: #8b5cf6;
+            --dark: #0a0a1a;
+            --darker: #050510;
+            --light: #e5e7eb;
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--dark);
+            color: white;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Orbitron', sans-serif;
+        }
+        
+        .gradient-text {
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .glow {
+            text-shadow: 0 0 10px rgba(59, 130, 246, 0.7);
+        }
+        
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.3);
+        }
+        
+        .nav-link {
+            position: relative;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .hero-section {
+            background: linear-gradient(135deg, rgba(11, 15, 25, 0.9) 0%, rgba(29, 7, 47, 0.9) 100%);
+        }
+        
+        .social-icon {
+            transition: all 0.3s ease;
+        }
+        
+        .social-icon:hover {
+            transform: translateY(-5px);
+        }
+        
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--dark);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+        
+        .loading-bar {
+            width: 90%;
+            max-width: 500px;
+            height: 4px;
+            background: rgba(255,255,255,0.1);
+            position: relative;
+            overflow: hidden;
+            margin: 0 auto;
+        }
+        
+        .loading-progress {
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            transition: width 0.3s ease;
+        }
+        
+        .main-content {
+            opacity: 0;
+            transition: opacity 0.5s ease-in;
+        }
+        
+        .content-loaded {
+            opacity: 1;
+        }
+        
+        /* Custom styles for webmaster page */
+        .webmaster-card {
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .webmaster-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            background-size: 200% 100%;
+            animation: gradientFlow 2s ease-in-out infinite;
+        }
+        
+        @keyframes gradientFlow {
+            0%, 100% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+        }
+        
+        .team-img {
+            transition: transform 0.5s ease;
+        }
+        
+        .team-img:hover {
+            transform: scale(1.05);
+        }
+        
+        /* Vanta.js Background */
+        #vanta-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        /* Responsive fixes */
+        @media (max-width: 768px) {
+            .hero-section {
+                padding-top: 100px;
+                padding-bottom: 60px;
+            }
+            
+            .loading-screen .text-4xl {
+                font-size: 1.75rem;
+                padding: 0 15px;
+            }
+            
+            .loading-bar {
+                width: 80%;
+            }
+            
+            .text-4xl {
+                font-size: 2rem;
+            }
+            
+            .text-6xl {
+                font-size: 3rem;
+            }
+            
+            .text-5xl {
+                font-size: 2.5rem;
+            }
+            
+            .text-3xl {
+                font-size: 1.875rem;
+            }
+            
+            .text-2xl {
+                font-size: 1.5rem;
+            }
+            
+            .text-xl {
+                font-size: 1.125rem;
+            }
+            
+            .px-8 {
+                padding-left: 1.5rem;
+                padding-right: 1.5rem;
+            }
+            
+            .py-3 {
+                padding-top: 0.75rem;
+                padding-bottom: 0.75rem;
+            }
+            
+            .p-8 {
+                padding: 1.5rem;
+            }
+            
+            .w-32 {
+                width: 6rem;
+                height: 6rem;
+            }
+        }
+        
+        @media (max-width: 640px) {
+            .hero-section {
+                padding-top: 80px;
+                padding-bottom: 40px;
+            }
+            
+            .text-6xl {
+                font-size: 2.5rem;
+            }
+            
+            .text-5xl {
+                font-size: 2rem;
+            }
+            
+            .text-4xl {
+                font-size: 1.75rem;
+            }
+            
+            .text-3xl {
+                font-size: 1.5rem;
+            }
+            
+            .text-2xl {
+                font-size: 1.25rem;
+            }
+            
+            .px-8 {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+            
+            .grid-cols-2 {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            .max-w-7xl {
+                max-width: 100%;
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .text-6xl {
+                font-size: 2rem;
+            }
+            
+            .text-5xl {
+                font-size: 1.75rem;
+            }
+            
+            .grid-cols-2 {
+                grid-template-columns: 1fr;
+            }
+            
+            .w-32 {
+                width: 5rem;
+                height: 5rem;
+            }
+            
+            .p-8 {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="text-center w-full px-4">
+            <div class="text-4xl mb-6 font-bold gradient-text">SYSTEM INITIALIZATION</div>
+            <div class="loading-bar">
+                <div class="loading-progress" id="loadingProgress"></div>
+            </div>
+            <div class="mt-4 text-gray-400 text-sm sm:text-base">Loading Webmaster Profiles...</div>
+        </div>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="main-content" id="mainContent">
+        <!-- Vanta.js Background -->
+        <div id="vanta-bg"></div>
+        
+        <!-- Navigation -->
+        <nav class="bg-black bg-opacity-80 backdrop-blur-md fixed w-full z-50 border-b border-gray-800">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex items-center justify-between h-16">
+                    <!-- Logo -->
+                    <div class="flex-shrink-0 flex items-center">
+                        <img src="images/umrt_logo.png" alt="URRT Logo" class="h-10 w-10 rounded-full">
+                        <img src="images/urrt_text.png" alt="URRT" class="h-6 ml-3 hidden sm:block">
+                    </div>
+                    
+                    <!-- Desktop Menu -->
+                    <div class="hidden md:block">
+                        <div class="ml-10 flex items-baseline space-x-8">
+                            <a href="#" class="nav-link text-white px-3 py-2 text-sm font-medium">Home</a>
+                            <a href="join.html" class="nav-link text-white px-3 py-2 text-sm font-medium">Join Us</a>
+                            <a href="Advisors.html" class="nav-link text-white px-3 py-2 text-sm font-medium">Advisors</a>
+                            <a href="member.html" class="nav-link text-white px-3 py-2 text-sm font-medium">Team</a>                
+                        </div>
+                    </div>
+                    
+                    <!-- Mobile menu button -->
+                    <div class="md:hidden">
+                        <button id="mobile-menu-button" class="text-white hover:text-gray-300 focus:outline-none">
+                            <i data-feather="menu" class="w-6 h-6"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Mobile Menu -->
+            <div id="mobile-menu" class="md:hidden hidden bg-gray-900">
+                <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                    <a href="#" class="block px-3 py-2 text-base font-medium text-white">Home</a>
+                    <a href="join.html" class="block px-3 py-2 text-base font-medium text-white">Join Us</a>
+                    <a href="Advisors.html" class="block px-3 py-2 text-base font-medium text-white">Advisors</a>
+                    <a href="member.html" class="block px-3 py-2 text-base font-medium text-white">Team</a>
+                </div>
+            </div>
+        </nav>
+        
+        <!-- Hero Section -->
+        <section class="hero-section pt-24 md:pt-32 pb-12 md:pb-20 px-4 sm:px-6 lg:px-8">
+            <div class="max-w-7xl mx-auto">
+                <div class="text-center" data-aos="fade-up">
+                    <h1 class="text-3xl sm:text-4xl md:text-6xl font-bold mb-4 md:mb-6 glow">
+                        <span class="gradient-text">Webmasters</span>
+                    </h1>
+                    <h2 class="text-xl sm:text-2xl md:text-3xl font-semibold mb-6 md:mb-8 gradient-text">
+                        THE MINDS BEHIND THE DIGITAL EXPERIENCE
+                    </h2>
+                    <p class="text-base sm:text-lg md:text-xl mb-8 md:mb-10 max-w-3xl mx-auto px-4">
+                        Meet the talented developers and designers who brought the URRT website to life with cutting-edge technology and innovative design.
+                    </p>
+                    <a href="#webmasters" class="px-6 sm:px-8 py-2 sm:py-3 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full font-medium hover:from-blue-600 hover:to-purple-700 transition-all duration-300 transform hover:scale-105 inline-block text-sm sm:text-base">
+                        Meet Our Team
+                    </a>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Webmaster Section -->
+        <section id="webmasters" class="py-12 md:py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-gray-900 to-black">
+            <div class="max-w-7xl mx-auto">
+                <div class="text-center mb-10 md:mb-16" data-aos="fade-up">
+                    <span class="inline-block px-3 sm:px-4 py-1 bg-blue-500/20 text-blue-400 rounded-full text-xs sm:text-sm font-semibold mb-3 sm:mb-4 border border-blue-500/30">
+                        Development Team
+                    </span>
+                    <h2 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6 gradient-text">Meet Our Webmasters</h2>
+                    <p class="text-gray-400 max-w-2xl mx-auto text-sm sm:text-lg px-4">The brilliant minds behind this website</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 px-4 sm:px-0">
+                    <!-- Webmaster Card 1 -->
+                    <div class="group relative" data-aos="fade-up">
+                        <div class="absolute -inset-0.5 bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl blur opacity-20 group-hover:opacity-40 transition duration-500"></div>
+                        <div class="relative bg-gray-900/50 backdrop-blur-sm p-4 sm:p-6 md:p-8 rounded-2xl border border-gray-800 group-hover:border-blue-500/50 transition-all duration-300 h-full flex flex-col">
+                            <!-- Card Header -->
+                            <div class="flex flex-col items-center mb-4 sm:mb-6">
+                                <div class="relative mb-3 sm:mb-4">
+                                    <div class="w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 rounded-full overflow-hidden border-4 border-gradient-to-r from-blue-500 to-purple-600">
+                                        <img src="images/yeahyea.jpg" alt="Tawsif Turabi" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                                    </div>
+                                    <div class="absolute -bottom-2 -right-2 w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 bg-blue-500 rounded-full flex items-center justify-center">
+                                        <i class="fas fa-code text-white text-xs sm:text-sm"></i>
+                                    </div>
+                                </div>
+                                <h3 class="text-lg sm:text-xl md:text-2xl font-bold text-white mb-1 sm:mb-2">Yeahyea Hassan</h3>
+                                <div class="inline-flex items-center px-2 sm:px-3 py-1 bg-blue-500/20 text-blue-300 rounded-full text-xs sm:text-sm font-medium mb-3 sm:mb-4">
+                                    <i class="fas fa-bolt mr-1 sm:mr-2 text-xs"></i>
+                                    Electrical Team
+                                </div>
+                            </div>
+                            
+                            <!-- Card Body -->
+                            <div class="flex-grow mb-4 sm:mb-6">
+                                <p class="text-gray-300 leading-relaxed text-center text-sm sm:text-base">
+                                    Passionate about creating innovative web experiences with expertise in modern web technologies and user-centered design.
+                                </p>
+                            </div>
+                            
+                            <!-- Card Footer -->
+                            <div class="pt-3 sm:pt-4 border-t border-gray-800">
+                                <a href="https://github.com/yeahyeahassan" target="_blank" class="inline-flex items-center justify-center w-full py-2 sm:py-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-medium rounded-xl transition-all duration-300 transform hover:scale-105 group/btn text-sm sm:text-base">
+                                    <i class="fab fa-github mr-1 sm:mr-2"></i>
+                                    <span>GitHub Profile</span>
+                                    <i class="fas fa-external-link-alt ml-1 sm:ml-2 transform group-hover/btn:translate-x-1 transition-transform text-xs"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Technology Stack -->
+                <div class="mt-12 md:mt-20" data-aos="fade-up">
+                    <div class="text-center mb-8 md:mb-12">
+                        <h3 class="text-2xl sm:text-3xl font-bold mb-3 sm:mb-4 gradient-text">Technology Stack</h3>
+                        <p class="text-gray-400 max-w-2xl mx-auto text-sm sm:text-base px-4">Built with modern technologies for optimal performance and user experience</p>
+                    </div>
+                    
+                    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 sm:gap-4 md:gap-6 px-4 sm:px-0">
+                        <div class="bg-gray-900/50 p-2 sm:p-3 rounded-xl border border-gray-800 text-center">
+                            <i class="fab fa-html5 text-3xl sm:text-4xl text-orange-500 mb-2 sm:mb-3"></i>
+                            <p class="font-semibold text-sm sm:text-base">HTML</p>
+                        </div>
+                        <div class="bg-gray-900/50 p-2 sm:p-3 rounded-xl border border-gray-800 text-center">
+                            <i class="fab fa-css3-alt text-3xl sm:text-4xl text-blue-500 mb-2 sm:mb-3"></i>
+                            <p class="font-semibold text-sm sm:text-base">CSS</p>
+                        </div>
+                        <div class="bg-gray-900/50 p-2 sm:p-3 rounded-xl border border-gray-800 text-center">
+                            <i class="fab fa-github text-3xl sm:text-4xl text-gray-300 mb-2 sm:mb-3"></i>
+                            <p class="font-semibold text-sm sm:text-base">GitHub</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Footer -->
+        <footer class="bg-black bg-opacity-90 py-6 md:py-8 px-4 sm:px-6 lg:px-8 border-t border-gray-800">
+            <div class="max-w-7xl mx-auto">
+                <div class="md:flex md:items-center md:justify-between">
+                    <div class="flex justify-center md:order-2 space-x-4 sm:space-x-6">
+                        <a href="https://www.facebook.com/UIUMRT" target="_blank" class="text-gray-400 hover:text-white">
+                            <i data-feather="facebook" class="w-4 h-4 sm:w-5 sm:h-5"></i>
+                        </a>
+                        <a href="https://x.com/uiumarsrover" target="_blank" class="text-gray-400 hover:text-white">
+                            <i data-feather="twitter" class="w-4 h-4 sm:w-5 sm:h-5"></i>
+                        </a>
+                        <a href="https://www.instagram.com/uiumarsrover/" target="_blank" class="text-gray-400 hover:text-white">
+                            <i data-feather="instagram" class="w-4 h-4 sm:w-5 sm:h-5"></i>
+                        </a>
+                        <a href="https://www.linkedin.com/company/uiu-mars-rover-team-umrt/" target="_blank" class="text-gray-400 hover:text-white">
+                            <i data-feather="linkedin" class="w-4 h-4 sm:w-5 sm:h-5"></i>
+                        </a>
+                        <a href="https://www.youtube.com/@uiumarsrover" target="_blank" class="text-gray-400 hover:text-white">
+                            <i data-feather="youtube" class="w-4 h-4 sm:w-5 sm:h-5"></i>
+                        </a>
+                    </div>
+                    <div class="mt-6 md:mt-0 md:order-1 text-center">
+                        <p class="text-xs sm:text-sm text-gray-400">
+                            &copy; 2026 URRT - UIU Rescue Rover Team. All rights reserved.
+                        </p>
+                        <p class="text-xs text-gray-500 mt-1 sm:mt-2">
+                            Website developed by URRT Webmasters
+                        </p>
+                    </div>
+                </div>
+                <div class="mt-6 md:mt-8 text-center">
+                    <a href="index.html" class="text-blue-400 hover:text-blue-300 inline-flex items-center text-sm sm:text-base">
+                        <i data-feather="arrow-left" class="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2"></i>
+                        Back to Home
+                    </a>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // Loading Screen Animation
+        let progress = 0;
+        const loadingInterval = setInterval(() => {
+            progress += Math.random() * 10;
+            if (progress > 100) progress = 100;
+            document.getElementById('loadingProgress').style.width = `${progress}%`;
+            
+            if (progress >= 100) {
+                clearInterval(loadingInterval);
+                document.querySelector('.loading-screen').style.opacity = '0';
+                document.querySelector('.loading-screen').style.pointerEvents = 'none';
+                
+                setTimeout(() => {
+                    document.querySelector('.loading-screen').style.display = 'none';
+                    document.getElementById('mainContent').style.opacity = '1';
+                    
+                    // Initialize the rest of your website functionality
+                    initializeWebsite();
+                }, 500);
+            }
+        }, 200);
+        
+        // Initialize website functionality
+        function initializeWebsite() {
+            // Initialize AOS animations
+            AOS.init({
+                duration: 800,
+                easing: 'ease-in-out',
+                once: true
+            });
+            
+            // Initialize Feather Icons
+            feather.replace();
+            
+            // Mobile Menu Toggle
+            document.getElementById('mobile-menu-button').addEventListener('click', function() {
+                const menu = document.getElementById('mobile-menu');
+                menu.classList.toggle('hidden');
+            });
+            
+            // Smooth scrolling for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 80,
+                            behavior: 'smooth'
+                        });
+                        
+                        // Close mobile menu if open
+                        const mobileMenu = document.getElementById('mobile-menu');
+                        if (!mobileMenu.classList.contains('hidden')) {
+                            mobileMenu.classList.add('hidden');
+                        }
+                    }
+                });
+            });
+            
+            // Vanta.js Background
+            if (typeof VANTA !== 'undefined') {
+                VANTA.GLOBE({
+                    el: "#vanta-bg",
+                    mouseControls: true,
+                    touchControls: true,
+                    gyroControls: false,
+                    minHeight: 200.00,
+                    minWidth: 200.00,
+                    scale: 1.00,
+                    scaleMobile: 1.00,
+                    color: 0x3b82f6,
+                    color2: 0x8b5cf6,
+                    backgroundColor: 0x0a0a1a,
+                    size: 0.8
+                });
+            }
+            
+            // Card hover animations
+            document.querySelectorAll('.webmaster-card').forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-10px)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                });
+            });
+            
+            // Image lazy loading
+            const images = document.querySelectorAll('img');
+            images.forEach(img => {
+                img.loading = 'lazy';
+            });
+            
+            // Close mobile menu when clicking outside
+            document.addEventListener('click', function(event) {
+                const mobileMenu = document.getElementById('mobile-menu');
+                const menuButton = document.getElementById('mobile-menu-button');
+                
+                if (!mobileMenu.contains(event.target) && !menuButton.contains(event.target) && !mobileMenu.classList.contains('hidden')) {
+                    mobileMenu.classList.add('hidden');
+                }
+            });
+        }
+        
+        // Handle page visibility
+        document.addEventListener('visibilitychange', function() {
+            if (document.visibilityState === 'visible') {
+                if (typeof VANTA !== 'undefined') {
+                    VANTA.GLOBE({
+                        el: "#vanta-bg",
+                        mouseControls: true,
+                        touchControls: true,
+                        gyroControls: false,
+                        minHeight: 200.00,
+                        minWidth: 200.00,
+                        scale: 1.00,
+                        scaleMobile: 1.00,
+                        color: 0x3b82f6,
+                        color2: 0x8b5cf6,
+                        backgroundColor: 0x0a0a1a,
+                        size: 0.8
+                    });
+                }
+            }
+        });
+        
+        // Handle window resize
+        window.addEventListener('resize', function() {
+            feather.replace();
+        });
+    </script>
+</body>
+</html>
