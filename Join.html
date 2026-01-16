@@ -1,0 +1,1377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Quick Application - Join UIU Rescue Rover Team">
+    <meta name="keywords" content="URRT recruitment, robotics team, join robotics, UIU rover">
+    <link rel="icon" href="../images/umrt_logo.ico" type="image/x-icon">
+    <title>Join US- URRT Quick Application</title>
+    
+    <!-- External Libraries -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.globe.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src='https://api.mapbox.com/mapbox-gl-js/v2.9.2/mapbox-gl.js'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v2.9.2/mapbox-gl.css' rel='stylesheet' />
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap');
+        
+        :root {
+            --primary: #3b82f6;
+            --secondary: #8b5cf6;
+            --dark: #0a0a1a;
+            --darker: #050510;
+            --light: #e5e7eb;
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--dark);
+            color: white;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Orbitron', sans-serif;
+        }
+        
+        .gradient-text {
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        /* Loading Screen */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--dark);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+        
+        .loading-bar {
+            width: 500px;
+            height: 4px;
+            background: rgba(255,255,255,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .loading-progress {
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            transition: width 0.3s ease;
+        }
+        
+        .main-content {
+            opacity: 0;
+            transition: opacity 0.5s ease-in;
+        }
+        
+        .content-loaded {
+            opacity: 1;
+        }
+        
+
+
+
+
+
+
+
+
+        /* Recruitment Section */
+        .recruitment-section {
+            padding: 5rem 1rem;
+            background: linear-gradient(135deg, rgba(11, 15, 25, 0.95) 0%, rgba(29, 7, 47, 0.95) 100%);
+            min-height: 100vh;
+        }
+        
+        .recruitment-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(17, 24, 39, 0.7);
+            border-radius: 1rem;
+            padding: 2.5rem;
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+        
+        .header-badge {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .badge-text {
+            display: inline-block;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            padding: 0.5rem 1.5rem;
+            border-radius: 2rem;
+            font-weight: bold;
+            font-size: 1.1rem;
+            letter-spacing: 0.05em;
+        }
+        
+        .recruitment-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .title-divider {
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            margin: 1rem auto;
+            border: none;
+        }
+        
+        .recruitment-subtitle {
+            text-align: center;
+            font-size: 1.2rem;
+            color: #93c5fd;
+            margin-bottom: 1.5rem;
+        }
+        
+        .recruitment-description {
+            text-align: center;
+            font-size: 1.1rem;
+            line-height: 1.7;
+            margin-bottom: 2.5rem;
+            color: var(--light);
+        }
+        
+        .requirements h2 {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: #93c5fd;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .requirement-card {
+            background: rgba(31, 41, 55, 0.7);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid var(--primary);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .requirement-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.1), transparent);
+            transition: left 0.6s ease;
+        }
+        
+        .requirement-card:hover::before {
+            left: 100%;
+        }
+        
+        .requirement-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.2);
+        }
+        
+        .requirement-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .requirement-card h4 {
+            font-size: 1.1rem;
+            margin: 1rem 0 0.5rem;
+            color: var(--secondary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .requirement-card ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        
+        .requirement-card li {
+            margin-bottom: 0.5rem;
+            padding-left: 1.5rem;
+            position: relative;
+            color: var(--light);
+            transition: all 0.3s ease;
+        }
+        
+        .requirement-card li:hover {
+            color: #93c5fd;
+            transform: translateX(5px);
+        }
+        
+        .requirement-card li:before {
+            content: "•";
+            color: var(--primary);
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+        
+
+
+
+
+
+
+
+
+
+
+        /* Application Form */
+        .application-form-container {
+            max-width: 800px;
+            margin: 3rem auto;
+            background: rgba(31, 41, 55, 0.8);
+            border-radius: 1rem;
+            padding: 2.5rem;
+            border: 1px solid rgba(59, 130, 246, 0.3);
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-input {
+            width: 100%;
+            background: rgba(17, 24, 39, 0.8);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 0.5rem;
+            padding: 0.75rem 1rem;
+            color: white;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+        
+        .form-input.error {
+            border-color: #ef4444;
+        }
+        
+        .form-label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: #93c5fd;
+        }
+        
+        .btn {
+            display: inline-block;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 0.5rem;
+            font-weight: bold;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(59, 130, 246, 0.3);
+        }
+        
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+
+
+
+
+
+
+        /* Success Modal */
+        .success-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .success-modal.active {
+            display: flex;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .modal-content {
+            background: rgba(17, 24, 39, 0.95);
+            border-radius: 1rem;
+            padding: 3rem;
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+            border: 2px solid var(--primary);
+        }
+        
+        .modal-icon {
+            font-size: 4rem;
+            color: #10b981;
+            margin-bottom: 1.5rem;
+        }
+        
+
+
+
+
+
+
+        /* Back to Home Button */
+        .back-home-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 100;
+            background: rgba(17, 24, 39, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            padding: 0.75rem 1.5rem;
+            border-radius: 2rem;
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .back-home-btn:hover {
+            background: rgba(59, 130, 246, 0.2);
+            transform: translateX(-5px);
+        }
+        
+
+
+
+
+
+
+        /* Team Requirements Tabs */
+        .team-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .team-tab {
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            background: rgba(31, 41, 55, 0.7);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            color: #93c5fd;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .team-tab:hover {
+            background: rgba(59, 130, 246, 0.2);
+            transform: translateY(-2px);
+        }
+        
+        .team-tab.active {
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            color: white;
+        }
+        
+
+
+
+
+
+
+        /* Contact Form Styles */
+        .social-icon {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .social-icon:hover {
+            transform: translateY(-2px);
+        }
+        
+
+
+
+
+
+        /* Webmaster Button */
+        .webmaster-container {
+            position: relative;
+            perspective: 1000px;
+            margin: 3rem auto;
+            max-width: 300px;
+        }
+        
+        .webmaster-btn-3d {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            padding: 1.2rem 2rem;
+            background: linear-gradient(145deg, #1e293b, #0f172a);
+            border: none;
+            border-radius: 1rem;
+            color: white;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transform-style: preserve-3d;
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            text-decoration: none;
+            box-shadow: 
+                inset 2px 2px 5px rgba(255, 255, 255, 0.1),
+                inset -2px -2px 5px rgba(0, 0, 0, 0.5),
+                0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .webmaster-btn-3d:hover {
+            transform: rotateX(10deg) rotateY(10deg) translateZ(20px);
+        }
+        
+
+
+
+
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .recruitment-container {
+                padding: 1.5rem;
+            }
+            
+            .recruitment-title {
+                font-size: 2rem;
+            }
+            
+            .application-form-container {
+                padding: 1.5rem;
+            }
+            
+            .team-tabs {
+                justify-content: center;
+            }
+            
+            .loading-bar {
+                width: 90%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loading-screen">
+        <div class="loading-bar">
+            <div class="loading-progress" id="loadingProgress"></div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Back to Home Button -->
+        <a href="index.html" class="back-home-btn" data-aos="fade-right">
+            <i class="fas fa-arrow-left"></i>
+            <span>Back to Home</span>
+        </a>
+
+        <!-- Recruitment Section -->
+        <section id="recruitment" class="recruitment-section">
+            <div class="recruitment-container" data-aos="fade-up">
+                <div class="header-badge">
+                    <span class="badge-text">🚀 RECRUITING NOW</span>
+                </div>
+
+                <h1 class="recruitment-title">
+                    🪐 UIU Rescue Rover Team is Recruiting! 🚀
+                </h1>
+                <hr class="title-divider">
+                <p class="recruitment-subtitle">UIU Rescue Rover Team Recruitment 2026</p>
+                <p class="recruitment-description">
+                    Are you enthusiastic about Robotics, Autonomous Systems, Research, and real-world problem solving? This is the perfect opportunity for you! We are seeking dedicated individuals who are eager to contribute to the continuous development of our rescue rover, designed for disaster response and emergency operations. We are excited to form a new core team for upcoming competitions and challenges in 2026. Students from all departments at UIU are welcome to apply and be part of a team committed to innovation, teamwork, and saving lives through technology.
+                </p>
+
+                <!-- Join Our Team Section -->
+                <section id="join" class="my-12">
+                    <div class="application-form-container" data-aos="fade-up">
+                        <h2 class="text-2xl font-bold mb-6 text-center gradient-text">
+                            <i class="fas fa-user-plus mr-2"></i>Join Our Team
+                        </h2>
+                        
+                        <p class="text-gray-300 text-center mb-8">
+                            We're looking for passionate students in mechanical, electrical, software engineering, and AI to join our mission.
+                        </p>
+                        
+                        <div class="grid md:grid-cols-2 gap-8 mb-8">
+                            <div>
+                                <h3 class="text-xl font-bold mb-4 text-blue-300">Benefits of Joining</h3>
+                                <ul class="space-y-3">
+                                    <li class="flex items-center">
+                                        <i class="fas fa-check-circle text-green-400 mr-3"></i>
+                                        <span>Hands-on robotics experience</span>
+                                    </li>
+                                    <li class="flex items-center">
+                                        <i class="fas fa-check-circle text-green-400 mr-3"></i>
+                                        <span>Opportunity to compete internationally</span>
+                                    </li>
+                                    <li class="flex items-center">
+                                        <i class="fas fa-check-circle text-green-400 mr-3"></i>
+                                        <span>Work with cutting-edge technology</span>
+                                    </li>
+                                    <li class="flex items-center">
+                                        <i class="fas fa-check-circle text-green-400 mr-3"></i>
+                                        <span>Professional mentorship</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            
+                            <div>
+                                <h3 class="text-xl font-bold mb-4 text-purple-300">Quick Facts</h3>
+                                <ul class="space-y-3">
+                                    <li class="flex items-center">
+                                        <i class="fas fa-clock text-blue-400 mr-3"></i>
+                                        <span>Deadline: March 1, 2026</span>
+                                    </li>
+                                    <li class="flex items-center">
+                                        <i class="fas fa-users text-blue-400 mr-3"></i>
+                                        <span>Open to all UIU departments</span>
+                                    </li>
+                                    <li class="flex items-center">
+                                        <i class="fas fa-calendar text-blue-400 mr-3"></i>
+                                        <span>8-12 hours weekly commitment</span>
+                                    </li>
+                                    <li class="flex items-center">
+                                        <i class="fas fa-trophy text-blue-400 mr-3"></i>
+                                        <span>International competition exposure</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Application Form -->
+                        <form id="quickApplyForm">
+                            <div class="space-y-6">
+                                <!-- Full Name -->
+                                <div class="form-group">
+                                    <label for="fullName" class="form-label">
+                                        <i class="fas fa-user mr-2"></i>Full Name *
+                                    </label>
+                                    <input type="text" 
+                                           id="fullName" 
+                                           class="form-input"
+                                           placeholder="Enter your full name"
+                                           required>
+                                    <div class="text-xs text-gray-500 mt-1">As per your university records</div>
+                                </div>
+                                
+                                <!-- Student ID -->
+                                <div class="form-group">
+                                    <label for="studentId" class="form-label">
+                                        <i class="fas fa-id-card mr-2"></i>Student ID *
+                                    </label>
+                                    <input type="text" 
+                                           id="studentId" 
+                                           class="form-input"
+                                           placeholder="e.g., 011201001"
+                                           pattern="[0-9]{9}"
+                                           title="Please enter your 9-digit UIU Student ID"
+                                           required>
+                                    <div class="text-xs text-gray-500 mt-1">Your 9-digit UIU student ID number</div>
+                                </div>
+                                
+                                <!-- Interested Department -->
+                                <div class="form-group">
+                                    <label for="department" class="form-label">
+                                        <i class="fas fa-building mr-2"></i>Interested Department *
+                                    </label>
+                                    <select id="department" class="form-input" required>
+                                        <option value="">Select your department</option>
+                                        <option value="CSE">Computer Science & Engineering</option>
+                                        <option value="EEE">Electrical & Electronic Engineering</option>
+                                        <option value="ME">Mechanical Engineering</option>
+                                        <option value="CE">Civil Engineering</option>
+                                        <option value="BBA">Business Administration</option>
+                                        <option value="PHARM">Pharmacy</option>
+                                        <option value="BIOT">Biotechnology</option>
+                                        <option value="GE">Genetic Engineering</option>
+                                        <option value="OTHER">Other Department</option>
+                                    </select>
+                                </div>
+                                
+                                <!-- Submit Button -->
+                                <div class="mt-8">
+                                    <button type="submit" id="submitBtn" class="btn w-full">
+                                        <i class="fas fa-paper-plane mr-2"></i>Submit Application
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                        
+                        <!-- Quick Info -->
+                        <div class="mt-6 pt-6 border-t border-gray-800 text-center">
+                            <p class="text-sm text-gray-400">
+                                We'll contact you within 48 hours for further details.
+                                <br>Secure form • 30-second application
+                            </p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Recruitment Requirements -->
+                <div class="requirements mt-12" data-aos="fade-up">
+                    <h2><i class="fas fa-rocket"></i> Team Requirements</h2>
+                    
+                    <!-- Team Tabs -->
+                    <div class="team-tabs">
+                        <button class="team-tab active" data-team="all">All Teams</button>
+                        <button class="team-tab" data-team="mechanical">Mechanical</button>
+                        <button class="team-tab" data-team="software">Software</button>
+                        <button class="team-tab" data-team="electrical">Electrical</button>
+                        <button class="team-tab" data-team="aerial">Aerial</button>
+                       
+                        <button class="team-tab" data-team="media">Media</button>
+                        <button class="team-tab" data-team="logistics">Logistics</button>
+                    </div>
+
+                    <!-- Team Requirements -->
+                    <div class="team-requirements">
+                        <!-- Mechanical Team -->
+                        <div class="requirement-card" data-team="mechanical">
+                            <h3><i class="fas fa-cogs"></i> Mechanical Sub-Team</h3>
+                            <h4><i class="fas fa-cube"></i> 3D-Design:</h4>
+                            <ul>
+                                <li>SolidWorks</li>
+                                <li>Fusion 360</li>
+                                <li>Blender3D</li>
+                            </ul>
+                            <h4><i class="fas fa-tools"></i> Fabrication:</h4>
+                            <ul>
+                                <li>Basic mechanical knowledge (materials/instruments) is preferred.</li>
+                                <li>Understanding of different materials (metals, plastics, composites) and their properties.</li>
+                                <li>Skill in using various measuring instruments and tools.</li>
+                                <li>Familiarity with different mechanical tools.</li>
+                            </ul>
+                        </div>
+
+                        <!-- Software Team -->
+                        <div class="requirement-card" data-team="software">
+                            <h3><i class="fas fa-code"></i> Software & Autonomous Sub-Team</h3>
+                            <ul>
+                                <li>Previous experience with projects (not required but a plus).</li>
+                                <li>Experience in image processing, specifically object detection and segmentation using ML/DL.</li>
+                                <li>Preliminary knowledge of basic processing units and sensors.</li>
+                                <li>Technical content and report writing skills.</li>
+                                <li>ROS (Robot Operating System) knowledge</li>
+                                <li>Python/C++ programming experience</li>
+                            </ul>
+                        </div>
+
+                        <!-- Electrical Team -->
+                        <div class="requirement-card" data-team="electrical">
+                            <h3><i class="fas fa-microchip"></i> Electrical Sub-Team</h3>
+                            <ul>
+                                <li>Circuit and PCB design.</li>
+                                <li>Circuit development.</li>
+                                <li>Coding in microcontrollers / microprocessors (Arduino, STM32, ESP32, Raspberry Pi, Platform IO, MicroPython, etc.).</li>
+                                <li>Knowledge in basic electronics.</li>
+                                <li>Module design.</li>
+                                <li>Power system management</li>
+                            </ul>
+                        </div>
+
+                        <!-- Aerial Team -->
+                        <div class="requirement-card" data-team="aerial">
+                            <h3><i class="fas fa-tower-broadcast"></i> Aerial & Communication Sub-Team</h3>
+                            <ul>
+                                <li>Previous experience with drones (not required but a plus).</li>
+                                <li>Knowledge in networking, specifically remote operation, communication protocols, and telemetry.</li>
+                                <li>Preliminary knowledge of basic sensors and radio modules.</li>
+                                <li>Technical content and report writing skills.</li>
+                                <li>Radio frequency (RF) systems knowledge</li>
+                            </ul>
+                        </div>
+
+                        
+
+                        <!-- Media Team -->
+                        <div class="requirement-card" data-team="media">
+                            <h3><i class="fas fa-bullhorn"></i> Media and Public Relations Sub-Team</h3>
+                            <ul>
+                                <li>Students from Media Studies and Journalism departments are encouraged to apply.</li>
+                                <li>Content writing capabilities.</li>
+                                <li>Content creation skills (cinematography, graphic design, voice artistry, video editing).</li>
+                                <li>Strong communication skills.</li>
+                                <li>Social media management</li>
+                                 <li>Documentation</li>
+                            </ul>
+                        </div>
+
+                        <!-- Logistics Team -->
+                        <div class="requirement-card" data-team="logistics">
+                            <h3><i class="fas fa-chart-line"></i> Logistics</h3>
+                            <ul>
+                                <li>BBA students are encouraged to apply.</li>
+                                <li>Event planning and management</li>
+                                <li>Budget management skills</li>
+                                <li>Procurement and supply chain knowledge</li>
+                                <li>Sponsorship acquisition</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- FAQ Section -->
+                <div class="mt-12 pt-8 border-t border-gray-800" data-aos="fade-up">
+                    <h2 class="text-2xl font-bold mb-6 text-center gradient-text">
+                        <i class="fas fa-question-circle mr-2"></i>Frequently Asked Questions
+                    </h2>
+                    
+                    <div class="space-y-4">
+                        <details class="bg-gray-800/50 rounded-lg p-4">
+                            <summary class="font-bold cursor-pointer text-blue-300">Who can apply?</summary>
+                            <p class="mt-2 text-gray-300">All current UIU students from any department are welcome to apply. No prior robotics experience is required for some positions.</p>
+                        </details>
+                        
+                        <details class="bg-gray-800/50 rounded-lg p-4">
+                            <summary class="font-bold cursor-pointer text-blue-300">What is the selection process?</summary>
+                            <p class="mt-2 text-gray-300">Applications are reviewed on a rolling basis. Shortlisted candidates will be contacted for interviews within 2 weeks of application.</p>
+                        </details>
+                        
+                        <details class="bg-gray-800/50 rounded-lg p-4">
+                            <summary class="font-bold cursor-pointer text-blue-300">Is there any commitment required?</summary>
+                            <p class="mt-2 text-gray-300">Selected members are expected to commit 8-12 hours per week during the semester, with flexible scheduling.</p>
+                        </details>
+                        
+                        <details class="bg-gray-800/50 rounded-lg p-4">
+                            <summary class="font-bold cursor-pointer text-blue-300">Will I receive any training?</summary>
+                            <p class="mt-2 text-gray-300">Yes! We provide comprehensive training sessions, workshops, and mentorship for all new members.</p>
+                        </details>
+                    </div>
+                </div>
+                
+                <!-- Application Deadline -->
+                <div class="mt-12 text-center" data-aos="fade-up">
+                    <div class="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-gradient-to-r from-blue-900/30 to-purple-900/30 border border-blue-500/30">
+                        <i class="fas fa-exclamation-triangle text-yellow-400 text-xl"></i>
+                        <div>
+                            <p class="font-bold text-white">Application Deadline</p>
+                            <p class="text-gray-300">March 13, 2025 • 11:59 PM</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+         <!-- Contact Section -->
+        <section id="contact" class="py-16 px-4 sm:px-6 lg:px-8 bg-black bg-opacity-50">
+            <div class="max-w-7xl mx-auto">
+                <h2 class="text-4xl md:text-5xl font-bold text-center mb-12 gradient-text" data-aos="fade-up">Contact Us</h2>
+                
+                <div class="grid lg:grid-cols-3 gap-8">
+                    <!-- Contact Info & Map -->
+                    <div class="lg:col-span-2 grid md:grid-cols-2 gap-8">
+                        <!-- Contact Information -->
+                        <div class="space-y-8" data-aos="fade-right">
+                            <div>
+                            <h3 class="text-2xl font-bold mb-6 gradient-text">About URRT</h3>
+                            <p class="text-gray-300 mb-6">The UIU Rescue Rover Team (URRT) is a group of passionate students dedicated to designing and building advanced rescue rovers for disaster response and emergency operations. Our mission is to leverage engineering innovation and autonomous technologies to assist in search, Rescue, and Life-saving missions, pushing the boundaries of robotics for humanitarian impact.</p>
+                        </div>
+                            
+                            <div class="space-y-6">
+                                <!-- Email -->
+                                <div class="flex items-start group cursor-pointer">
+                                    <div class="bg-gradient-to-br from-blue-500 to-blue-600 p-3 rounded-xl mr-4 transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg group-hover:shadow-blue-500/25">
+                                        <i class="fas fa-envelope w-6 h-6 text-white"></i>
+                                    </div>
+                                    <div class="flex-1">
+                                        <h4 class="font-semibold text-white mb-1">Email</h4>
+                                        <p class="text-gray-400 group-hover:text-blue-300 transition-colors">marsrover@uiu.ac.bd</p>
+                                        <p class="text-sm text-gray-500 mt-1">We'll respond within 24 hours</p>
+                                    </div>
+                                </div>
+                                
+                                <!-- Phone -->
+                                <div class="flex items-start group cursor-pointer">
+                                    <div class="bg-gradient-to-br from-purple-500 to-purple-600 p-3 rounded-xl mr-4 transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg group-hover:shadow-purple-500/25">
+                                        <i class="fas fa-phone w-6 h-6 text-white"></i>
+                                    </div>
+                                    <div class="flex-1">
+                                        <h4 class="font-semibold text-white mb-1">Phone</h4>
+                                        <p class="text-gray-400 group-hover:text-purple-300 transition-colors">+880 1796-992356</p>
+                                        <p class="text-sm text-gray-500 mt-1">Mon-Fri, 9AM-5PM</p>
+                                    </div>
+                                </div>
+                                
+                                <!-- Address -->
+                                <div class="flex items-start group cursor-pointer">
+                                    <div class="bg-gradient-to-br from-blue-500 to-blue-600 p-3 rounded-xl mr-4 transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg group-hover:shadow-blue-500/25">
+                                        <i class="fas fa-map-marker-alt w-6 h-6 text-white"></i>
+                                    </div>
+                                    <div class="flex-1">
+                                        <h4 class="font-semibold text-white mb-1">Address</h4>
+                                        <p class="text-gray-400 group-hover:text-blue-300 transition-colors">United International University</p>
+                                        <p class="text-sm text-gray-500 mt-1">Dhaka, Bangladesh</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Social Media -->
+                            <div class="mt-8">
+                                <h4 class="font-semibold text-white mb-4">Follow Our Journey</h4>
+                                <div class="flex space-x-3">
+                                    <a href="#" class="social-icon bg-gradient-to-br from-blue-600 to-blue-700 p-3 rounded-xl transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-blue-500/25">
+                                        <i class="fab fa-facebook-f w-5 h-5 text-white"></i>
+                                    </a>
+                                    <a href="#" class="social-icon bg-gradient-to-br from-blue-400 to-blue-500 p-3 rounded-xl transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-blue-400/25">
+                                        <i class="fab fa-twitter w-5 h-5 text-white"></i>
+                                    </a>
+                                    <a href="#" class="social-icon bg-gradient-to-br from-purple-500 to-pink-500 p-3 rounded-xl transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-purple-500/25">
+                                        <i class="fab fa-instagram w-5 h-5 text-white"></i>
+                                    </a>
+                                    <a href="#" class="social-icon bg-gradient-to-br from-blue-500 to-blue-600 p-3 rounded-xl transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-blue-500/25">
+                                        <i class="fab fa-linkedin-in w-5 h-5 text-white"></i>
+                                    </a>
+                                    <a href="#" class="social-icon bg-gradient-to-br from-red-500 to-red-600 p-3 rounded-xl transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-red-500/25">
+                                        <i class="fab fa-youtube w-5 h-5 text-white"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Interactive Map -->
+                        <div class="relative" data-aos="fade-left">
+                            <div class="bg-gradient-to-br from-gray-900 to-gray-800 rounded-2xl p-6 border border-gray-700 h-full">
+                                <h3 class="text-xl font-bold mb-4 text-white">Visit Our Campus</h3>
+                                <div class="map-container relative bg-gradient-to-br from-blue-900/20 to-purple-900/20 rounded-xl overflow-hidden border border-gray-600 h-64 mb-4">
+                                    <!-- Embedded Google Maps -->
+                                    <iframe 
+                                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3650.598346556767!2d90.42461497504862!3d23.79810607863617!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3755c7b33c7b87cd%3A0x8c3881b66eeb7e0c!2sUnited%20International%20University!5e0!3m2!1sen!2sbd!4v1700000000000!5m2!1sen!2sbd" 
+                                        width="100%" 
+                                        height="100%" 
+                                        style="border:0;" 
+                                        allowfullscreen="" 
+                                        loading="lazy" 
+                                        referrerpolicy="no-referrer-when-downgrade"
+                                        class="rounded-lg">
+                                    </iframe>
+                                </div>
+                                
+                                <div class="space-y-2 text-sm text-gray-300">
+                                    <div class="flex items-center">
+                                        <i class="fas fa-map-signs text-blue-400 mr-2"></i>
+                                        <span>United City, Madani Avenue, Badda, Dhaka 1212</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <i class="fas fa-clock text-purple-400 mr-2"></i>
+                                        <span>Open: Sunday - Thursday, 8:00 AM - 8:00 PM</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <i class="fas fa-building text-green-400 mr-2"></i>
+                                        <span>CAIR Lab: 4th Floor, Academic Building</span>
+                                    </div>
+                                </div>
+                                
+                                <a href="https://maps.app.goo.gl/CwgAxRgJQgHv7Vjq8" target="_blank" class="w-full mt-4 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-medium py-3 px-4 rounded-xl transition-all duration-300 transform hover:scale-105 flex items-center justify-center space-x-2 no-underline">
+                                    <i class="fas fa-directions"></i>
+                                    <span>Open in Google Maps</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                  <!-- Contact Form -->
+<div data-aos="fade-up">
+    <div class="bg-gradient-to-br from-gray-900 to-gray-800 rounded-2xl p-8 border border-gray-700">
+        <h3 class="text-2xl font-bold mb-6 gradient-text">Send Us a Message</h3>
+
+        <form class="space-y-6" id="contact-form">
+
+            <!-- Full Name -->
+            <div class="form-group">
+                <label class="block text-sm font-medium mb-2 text-gray-300">Full Name</label>
+                <div class="relative">
+                    <input type="text" id="contact-name" class="contact-form-input"
+                        placeholder="Enter your name" required>
+                    <div class="absolute right-3 top-3 text-gray-400">
+                        <i class="fas fa-user"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Email -->
+            <div class="form-group">
+                <label class="block text-sm font-medium mb-2 text-gray-300">Email Address</label>
+                <div class="relative">
+                    <input type="email" id="contact-email" class="contact-form-input"
+                        placeholder="your.email@example.com" required>
+                    <div class="absolute right-3 top-3 text-gray-400">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Subject -->
+            <div class="form-group">
+                <label class="block text-sm font-medium mb-2 text-gray-300">Subject</label>
+                <div class="relative">
+                    <select id="contact-subject" class="contact-form-input appearance-none" required>
+                        <option value="">Select a subject</option>
+                        <option value="Team Inquiry">Team Inquiry</option>
+                        <option value="Collaboration">Collaboration</option>
+                        <option value="Sponsorship">Sponsorship</option>
+                        <option value="Recruitment">Recruitment</option>
+                        <option value="Technical Inquiry">Technical Inquiry</option>
+                        <option value="Other">Other</option>
+                    </select>
+                    <div class="absolute right-3 top-3 text-gray-400 pointer-events-none">
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Message -->
+            <div class="form-group">
+                <label class="block text-sm font-medium mb-2 text-gray-300">Message</label>
+                <div class="relative">
+                    <textarea id="contact-message" rows="4" class="contact-form-input resize-none"
+                        placeholder="Write your message..." required></textarea>
+                    <div class="absolute right-3 top-3 text-gray-400">
+                        <i class="fas fa-edit"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit"
+                class="w-full bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-blue-500/25 flex items-center justify-center space-x-2 group">
+                <span>Send Message</span>
+                <i class="fas fa-paper-plane group-hover:translate-x-1 transition-transform"></i>
+            </button>
+
+        </form>
+    </div>
+</div>
+
+
+
+<style>
+.contact-form-input {
+    width: 100%;
+    background-color: #1f2933; /* gray-800 */
+    border: 1px solid #4b5563; /* gray-600 */
+    border-radius: 0.75rem;
+    padding: 0.75rem 1rem;
+    color: white;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.contact-form-input::placeholder {
+    color: #9ca3af;
+}
+
+.contact-form-input:focus {
+    border-color: transparent;
+    box-shadow: 0 0 0 2px #3b82f6;
+}
+</style>
+
+
+<script>
+document.getElementById("contact-form").addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    const name = document.getElementById("contact-name").value;
+    const email = document.getElementById("contact-email").value;
+    const subject = document.getElementById("contact-subject").value;
+    const message = document.getElementById("contact-message").value;
+
+    const mailtoLink = `mailto:uiurescuerover@gmail.com
+        ?subject=${encodeURIComponent(subject)}
+        &body=${encodeURIComponent(
+            `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`
+        )}`;
+
+    window.location.href = mailtoLink;
+});
+</script>
+
+
+
+
+
+
+
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <!-- Webmaster Button -->
+        <div class="webmaster-container" data-aos="fade-up" data-aos-delay="300">
+            <div class="webmaster-tooltip">
+                👨‍💻 Meet the developers behind the site
+            </div>
+            
+            <a href="webmaster.html" class="webmaster-btn-3d">
+                <span class="webmaster-icon-3d">
+                    <i class="fas fa-code"></i>
+                </span>
+                <span class="webmaster-text-3d">Our Webmasters</span>
+            </a>
+        </div>
+
+        <!-- Footer -->
+        <footer class="bg-black bg-opacity-90 py-8 px-4 sm:px-6 lg:px-8 border-t border-gray-800">
+            <div class="max-w-7xl mx-auto">
+                <div class="md:flex md:items-center md:justify-between">
+                    <div class="flex justify-center md:order-2 space-x-6">
+                        <a href="#" class="text-gray-400 hover:text-white">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                    </div>
+                    <div class="mt-8 md:mt-0 md:order-1">
+                        <p class="text-center text-sm text-gray-400">
+                            &copy; 2026 URRT - UIU Rescue Rover Team. All rights reserved.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Success Modal -->
+    <div id="successModal" class="success-modal">
+        <div class="modal-content">
+            <div class="modal-icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <h3 class="text-2xl font-bold mb-2 text-white">Application Submitted!</h3>
+            <p class="text-gray-300 mb-6">Thank you for applying to URRT. We'll review your application and contact you within 48 hours.</p>
+            <div class="flex gap-4 justify-center">
+                <a href="index.html" class="px-6 py-2 bg-blue-500 hover:bg-blue-600 rounded-lg transition-colors">
+                    Back to Home
+                </a>
+                <button id="closeModal" class="px-6 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+    <script>
+        // Initialize AOS
+        AOS.init({
+            duration: 800,
+            easing: 'ease-in-out',
+            once: true
+        });
+        
+        // Loading Screen Animation
+        let progress = 0;
+        const loadingInterval = setInterval(() => {
+            progress += Math.random() * 10;
+            if (progress > 100) progress = 100;
+            document.getElementById('loadingProgress').style.width = `${progress}%`;
+            
+            if (progress >= 100) {
+                clearInterval(loadingInterval);
+                document.querySelector('.loading-screen').style.opacity = '0';
+                document.querySelector('.loading-screen').style.pointerEvents = 'none';
+                
+                setTimeout(() => {
+                    document.querySelector('.loading-screen').style.display = 'none';
+                    document.querySelector('.main-content').style.opacity = '1';
+                }, 500);
+            }
+        }, 200);
+        
+        // Team requirement filtering
+        const teamTabs = document.querySelectorAll('.team-tab');
+        const requirementCards = document.querySelectorAll('.requirement-card');
+        
+        teamTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const team = tab.dataset.team;
+                
+                // Update active tab
+                teamTabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                
+                // Filter requirement cards
+                requirementCards.forEach(card => {
+                    if (team === 'all' || card.dataset.team === team) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+        
+        // Form submission handler
+        document.getElementById('quickApplyForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            // Get form data
+            const formData = {
+                name: document.getElementById('fullName').value.trim(),
+                studentId: document.getElementById('studentId').value.trim(),
+                department: document.getElementById('department').value,
+                timestamp: new Date().toISOString()
+            };
+            
+            // Validate form
+            if (!validateForm(formData)) {
+                return;
+            }
+            
+            // Show loading state
+            const submitBtn = document.getElementById('submitBtn');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
+            submitBtn.disabled = true;
+            
+            try {
+                // Simulate API call
+                await submitToAPI(formData);
+                
+                // Show success modal
+                document.getElementById('successModal').classList.add('active');
+                
+                // Reset form
+                document.getElementById('quickApplyForm').reset();
+                
+            } catch (error) {
+                alert('Error: ' + error.message);
+                
+            } finally {
+                // Reset button state
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            }
+        });
+        
+        // Form validation
+        function validateForm(data) {
+            // Reset error states
+            document.querySelectorAll('.form-input').forEach(input => {
+                input.classList.remove('error');
+            });
+            
+            let isValid = true;
+            
+            // Name validation
+            if (!data.name || data.name.length < 3) {
+                document.getElementById('fullName').classList.add('error');
+                isValid = false;
+            }
+            
+            // Student ID validation
+            if (!data.studentId || !/^\d{9}$/.test(data.studentId)) {
+                document.getElementById('studentId').classList.add('error');
+                isValid = false;
+            }
+            
+            // Department validation
+            if (!data.department) {
+                document.getElementById('department').classList.add('error');
+                isValid = false;
+            }
+            
+            if (!isValid) {
+                alert('Please fill in all required fields correctly.');
+            }
+            
+            return isValid;
+        }
+        
+        // Simulated API submission
+        async function submitToAPI(data) {
+            return new Promise((resolve, reject) => {
+                // Simulate network delay
+                setTimeout(() => {
+                    // Simulate 90% success rate
+                    if (Math.random() > 0.1) {
+                        console.log('Application submitted:', data);
+                        resolve({ success: true });
+                    } else {
+                        reject(new Error('Network error. Please try again.'));
+                    }
+                }, 1500);
+            });
+        }
+        
+        // Modal controls
+        document.getElementById('closeModal').addEventListener('click', () => {
+            document.getElementById('successModal').classList.remove('active');
+        });
+        
+        // Close modal when clicking outside
+        document.getElementById('successModal').addEventListener('click', (e) => {
+            if (e.target === document.getElementById('successModal')) {
+                document.getElementById('successModal').classList.remove('active');
+            }
+        });
+        
+        // Real-time validation
+        document.querySelectorAll('#quickApplyForm input, #quickApplyForm select').forEach(input => {
+            input.addEventListener('input', () => {
+                input.classList.remove('error');
+            });
+        });
+        
+        // Student ID auto-format
+        document.getElementById('studentId').addEventListener('input', function(e) {
+            this.value = this.value.replace(/\D/g, '').slice(0, 9);
+        });
+        
+        // Auto-hide success modal after 8 seconds if open
+        setInterval(() => {
+            if (document.getElementById('successModal').classList.contains('active')) {
+                document.getElementById('successModal').classList.remove('active');
+            }
+        }, 8000);
+        
+        // Contact form submission
+        document.getElementById('contact-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form data
+            const formData = {
+                name: document.getElementById('contact-name').value,
+                email: document.getElementById('contact-email').value,
+                subject: document.getElementById('contact-subject').value,
+                message: document.getElementById('contact-message').value
+            };
+            
+            // Here you would typically send the data to your backend
+            console.log('Contact form submitted:', formData);
+            
+            // Show success message
+            alert('Thank you for your message! We will get back to you soon.');
+            this.reset();
+        });
+    </script>
+
+
+
+
+
+
+
+
+
+</body>
+</html>
